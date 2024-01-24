@@ -1,7 +1,6 @@
 package logic.utils.players;
 
 import logic.utils.Card;
-import networking.client.ClientGame;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

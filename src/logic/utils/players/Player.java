@@ -26,7 +26,7 @@ public class Player {
      */
     public String getCards() {
         StringBuilder cards = new StringBuilder();
-        hand.forEach((card) -> cards.append(card.name() + ","));
+        hand.forEach((card) -> cards.append(card.name()).append(","));
 
         return cards.toString();
     }

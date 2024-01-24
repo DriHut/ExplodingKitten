@@ -109,8 +109,8 @@ public class ServerGame {
      *
      * @return true if the game has started, false otherwise.
      */
-    public static boolean hasStarted() {
-        return game != null;
+    public static boolean hasEnded() {
+        return game == null;
     }
 
     /**

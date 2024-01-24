@@ -32,9 +32,9 @@ public enum Command {
 
     public static final String SEPARATOR = "|";
 
-    private String value;
-    private int args;
-    private  BiConsumer<Handler, String[]> executor;
+    private final String value;
+    private final int args;
+    private final BiConsumer<Handler, String[]> executor;
 
     Command(String value, int args, BiConsumer<Handler, String[]> executor) {
         this.value = value;

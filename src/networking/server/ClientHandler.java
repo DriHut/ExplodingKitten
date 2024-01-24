@@ -106,7 +106,7 @@ public class ClientHandler extends Handler {
         if (!(handler instanceof ClientHandler)) return;
         ClientHandler client = (ClientHandler) handler;
 
-        if (!ServerGame.hasStarted()) {
+        if (ServerGame.hasEnded()) {
             client.sendError(Error.E8);
             return;
         }
@@ -125,7 +125,7 @@ public class ClientHandler extends Handler {
         if (!(handler instanceof ClientHandler)) return;
         ClientHandler client = (ClientHandler) handler;
 
-        if (!ServerGame.hasStarted()) {
+        if (ServerGame.hasEnded()) {
             client.sendError(Error.E8);
             return;
         }
@@ -143,7 +143,7 @@ public class ClientHandler extends Handler {
         if (!(handler instanceof ClientHandler)) return;
         ClientHandler client = (ClientHandler) handler;
 
-        if (!ServerGame.hasStarted()) {
+        if (ServerGame.hasEnded()) {
             client.sendError(Error.E8);
             return;
         }
@@ -164,7 +164,7 @@ public class ClientHandler extends Handler {
         ClientHandler client = (ClientHandler) handler;
 
         System.out.println("place");
-        if (!ServerGame.hasStarted()) {
+        if (ServerGame.hasEnded()) {
             client.sendError(Error.E8);
             return;
         }
@@ -186,7 +186,7 @@ public class ClientHandler extends Handler {
         if (!(handler instanceof ClientHandler)) return;
         ClientHandler client = (ClientHandler) handler;
 
-        if (!ServerGame.hasStarted()) {
+        if (ServerGame.hasEnded()) {
             client.sendError(Error.E8);
             return;
         }

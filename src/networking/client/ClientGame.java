@@ -11,8 +11,8 @@ import java.util.concurrent.CountDownLatch;
 public class ClientGame {
     private static boolean isHuman = true;
     private static ClientPlayer player;
-    private static CountDownLatch isInit = new CountDownLatch(1);
-    private static Scanner scanner = new Scanner(System.in);
+    private static final CountDownLatch isInit = new CountDownLatch(1);
+    private static final Scanner scanner = new Scanner(System.in);
 
     // Informative data
     public static Card lastCardPlayed;

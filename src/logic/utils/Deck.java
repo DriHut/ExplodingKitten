@@ -46,15 +46,6 @@ public class Deck extends Stack<Card> {
         return pop();
     }
 
-    public List<Card> drawCards(int numCards) {
-        List<Card> drawnCards = new ArrayList<>();
-        for (int i = 0; i < Math.min(numCards, size()); i++) {
-            drawnCards.add(drawCard());
-        }
-        return drawnCards;
-    }
-
-
     public List<Card> peekTopCards(int numCards) {
         List<Card> topCards = new ArrayList<>();
 

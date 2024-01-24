@@ -11,7 +11,7 @@ public enum Error {
     E8("Missing information"),
     E9("Unknown error");
 
-    private String value;
+    private final String value;
 
     Error (String value) {
         this.value = value;

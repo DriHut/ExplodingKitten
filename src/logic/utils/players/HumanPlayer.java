@@ -2,7 +2,6 @@ package logic.utils.players;
 
 import logic.utils.Card;
 import networking.client.ClientGame;
-import networking.client.ServerHandler;
 import networking.protocol.Command;
 import networking.protocol.Handler;
 
