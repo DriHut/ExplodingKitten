@@ -27,7 +27,8 @@
 - NOPE can be noped becoming a yes, meaning the card will be executed again.
 - The player has a choice on where to place the defused kitten in the deck.
 - The player can choose who the favor is from. 
-- A player can play the DEFUSE card preemptively. 
+- A player can play the DEFUSE card preemptively.
+- Players can chat at anytime by adding '!' before any inputs.
 
 # About Computer player:
 none implemented have fun
