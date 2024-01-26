@@ -21,21 +21,21 @@ public class ServerHandler extends Handler {
             InetAddress address = null;
             while (address == null) {
                 try {
-                    String input = ClientGame.getUserInput("enter a valid ip for the server or \".\" for localhost");
+                    String input = ClientGame.getUserInput("Enter a valid ip for the server or \".\" for localhost");
                     if (input.equals(".")) {
                         input = "127.0.0.1";
                         ClientGame.print("127.0.0.1");
                     }
                     address = InetAddress.getByName(input);
                 } catch (UnknownHostException e) {
-                    System.out.println("unknown host please retry");
+                    System.out.println("Unknown host, please retry.");
                 }
             }
 
             init(address);
 
             while (ClientGame.getPlayer() == null) {
-                sendCommand(Command.HELLO, ClientGame.getUserInput("enter your pseudo"));
+                sendCommand(Command.HELLO, ClientGame.getUserInput("Enter your name:"));
                 String text;
                 while (true) {
                     text = inputReader.readLine();
@@ -74,9 +74,9 @@ public class ServerHandler extends Handler {
                 socket = new Socket(address, PORT);
                 inputReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 outputWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                System.out.println("Connection established");
+                System.out.println("Connection established!");
             } catch (IOException e) {
-                System.out.println("could not create a socket on " + address + ":" + PORT);
+                System.out.println("Could not create a socket on " + address + ":" + PORT);
             }
         }
     }
@@ -203,9 +203,6 @@ public class ServerHandler extends Handler {
         ClientGame.displayGame();
         ClientGame.getPlayer()
             .choosePosition()
-            .thenAcceptAsync(position -> {
-                System.out.println(position);
-                handler.sendCommand(Command.PLACE, position + "");
-            });
+            .thenAcceptAsync(position -> handler.sendCommand(Command.PLACE, position + ""));
     }
 }

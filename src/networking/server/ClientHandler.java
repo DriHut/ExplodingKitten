@@ -163,7 +163,6 @@ public class ClientHandler extends Handler {
         if (!(handler instanceof ClientHandler)) return;
         ClientHandler client = (ClientHandler) handler;
 
-        System.out.println("place");
         if (ServerGame.hasEnded()) {
             client.sendError(Error.E8);
             return;

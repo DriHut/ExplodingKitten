@@ -21,11 +21,11 @@ public class Game {
     public static final ScheduledExecutorService DELAYED_EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
     // Game data
-    private final List<ClientHandler> clientHandlers;
-    private final Deck deck;
+    protected final List<ClientHandler> clientHandlers;
+    protected final Deck deck;
 
     // Players for turn logic
-    private ClientHandler currentClient;
+    protected ClientHandler currentClient;
     private ClientHandler previousClient;
 
     // Game turns utils
@@ -66,7 +66,7 @@ public class Game {
         deck.insertExplosionsAndDefuses(clientHandlers.size());
 
         pickStartingPlayer();
-        broadcast(Command.NOTIFY, "game is starting...");
+        broadcast(Command.NOTIFY, "The game has been started!");
         nextTurn();
         System.out.println("A game has started!");
     }
@@ -139,10 +139,10 @@ public class Game {
      */
     private void sendPlayerUpdate(ClientHandler clientHandler) {
         clientHandler.sendCommand(
-            Command.PLAYERS,
-            clientHandler.getPlayer().getCards(),
-            lastCard != null ? lastCard.name(): "",
-            deck.size() + ""
+                Command.PLAYERS,
+                clientHandler.getPlayer().getCards(),
+                lastCard != null ? lastCard.name(): "",
+                deck.size() + ""
         );
     }
 
@@ -231,12 +231,12 @@ public class Game {
      */
     private void playCard(ClientHandler clientHandler, Card card) {
         if ( // make sure the player doesn't try to play a card when the last card ends their turn
-            delayedAction != null
-                && !actionStack.isEmpty()
-                && (actionStack.peek().equals(Card.ATTACK)
-                    || (actionStack.isEmpty()
+                delayedAction != null
+                        && !actionStack.isEmpty()
+                        && (actionStack.peek().equals(Card.ATTACK)
+                        || (actionStack.isEmpty()
                         && !skippedStack.isEmpty()
-                    )
+                )
                 )
         ) clientHandler.sendError(Error.E3);
 
@@ -263,17 +263,17 @@ public class Game {
         // creates a delayed task to let users nope it if they want
         if (delayedAction == null && Card.DELAYED_CARD.contains(topCard)) {
             delayedAction = DELAYED_EXECUTOR
-                .schedule(() -> {
-                    delayedThread = Thread.currentThread();
-                    canNope = false;
-                    this.doEffects();
-                }, NOPE_DELAY, TimeUnit.SECONDS);
+                    .schedule(() -> {
+                        delayedThread = Thread.currentThread();
+                        canNope = false;
+                        this.doEffects();
+                    }, NOPE_DELAY, TimeUnit.SECONDS);
             broadcast(
-                Command.NOTIFY,
-                playingClient.getPlayer().getName()
-                    + " is placing the card "
-                    + topCard.name()
-                    + " hurry if you want to nope it!"
+                    Command.NOTIFY,
+                    playingClient.getPlayer().getName()
+                            + " is placing the card "
+                            + topCard.name()
+                            + " hurry if you want to nope it!"
             );
             return;
         }
@@ -309,12 +309,12 @@ public class Game {
             case SEE_THE_FUTURE: // send the 3 three cards of the deck to the current player
                 actionStack.pop();
                 playingClient.sendCommand(
-                    Command.NOTIFY,
-                    "Here are the 3 top cards on the deck: \\n"
-                        + deck.peekTopCards(3)
-                        .stream()
-                        .map(Card::name)
-                        .collect(Collectors.joining(", "))
+                        Command.NOTIFY,
+                        "Here are the 3 top cards on the deck: \\n"
+                                + deck.peekTopCards(3)
+                                .stream()
+                                .map(Card::name)
+                                .collect(Collectors.joining(", "))
                 );
                 break;
             case FAVOR: // make another player give the current player a card
@@ -322,12 +322,12 @@ public class Game {
 
                 String name = playingClient.getPlayer().getName();
                 playingClient.sendCommand( // ask player for a target
-                    Command.HAND,
-                    clientHandlers
-                        .stream()
-                        .filter(clientHandler -> !clientHandler.getPlayer().getName().equals(name))
-                        .map(clientHandler -> clientHandler.getPlayer().getName())
-                        .collect(Collectors.joining(", "))
+                        Command.HAND,
+                        clientHandlers
+                                .stream()
+                                .filter(clientHandler -> !clientHandler.getPlayer().getName().equals(name))
+                                .map(clientHandler -> clientHandler.getPlayer().getName())
+                                .collect(Collectors.joining(", "))
                 );
                 awaitUserInteraction = true;
                 break;
@@ -346,10 +346,7 @@ public class Game {
                         doEffects();
                         return;
                     } else {
-                        playingClient.sendCommand(
-                            Command.NOTIFY,
-                            "You drew an exploding kitten but you did not have a defuse."
-                        );
+                        playingClient.sendCommand(Command.NOTIFY, "You drew an EXPLODING_KITTEN but you don't have a DEFUSE!");
                         gameOver(playingClient);
                         actionStack.pop();
                     }
@@ -404,10 +401,10 @@ public class Game {
      */
     public void chooseTarget(ClientHandler clientHandler, String target) {
         if ( // check for target empty, correct action, and different player
-            favorTarget != null
-                || !actionStack.peek().equals(Card.FAVOR)
-                || !clientHandler.equals(currentClient)
-                || target.equals(currentClient.getPlayer().getName())
+                favorTarget != null
+                        || !actionStack.peek().equals(Card.FAVOR)
+                        || !clientHandler.equals(currentClient)
+                        || target.equals(currentClient.getPlayer().getName())
         ) {
             clientHandler.sendError(Error.E3);
             return;
@@ -415,10 +412,10 @@ public class Game {
 
         // get targeted client if any
         ClientHandler targetedClient = clientHandlers
-            .stream()
-            .filter(client -> client.getPlayer().getName().equals(target))
-            .findFirst()
-            .orElse(null);
+                .stream()
+                .filter(client -> client.getPlayer().getName().equals(target))
+                .findFirst()
+                .orElse(null);
         if (targetedClient == null) { // no client targeted
             clientHandler.sendError(Error.E4);
             return;
@@ -446,9 +443,9 @@ public class Game {
      */
     public void giveCard(ClientHandler clientHandler, Card card) {
         if ( // check for target empty, correct action, and if he has card
-            (!actionStack.isEmpty() && !actionStack.peek().equals(Card.FAVOR))
-                || !clientHandler.equals(favorTarget)
-                || !clientHandler.getPlayer().hasCard(card)
+                (!actionStack.isEmpty() && !actionStack.peek().equals(Card.FAVOR))
+                        || !clientHandler.equals(favorTarget)
+                        || !clientHandler.getPlayer().hasCard(card)
         ) {
             clientHandler.sendError(Error.E3);
             return;
@@ -458,10 +455,10 @@ public class Game {
         currentClient.getPlayer().getHand().add(card);
 
         broadcast(
-            Command.NOTIFY,
-            favorTarget.getPlayer().getName()
-                + " has given a card to "
-                + currentClient.getPlayer().getName()
+                Command.NOTIFY,
+                favorTarget.getPlayer().getName()
+                        + " has given a card to "
+                        + currentClient.getPlayer().getName()
         );
 
         sendPlayerUpdate(favorTarget);
@@ -526,9 +523,9 @@ public class Game {
      */
     public void place(ClientHandler clientHandler, Card card, int index) {
         if (!currentClient.equals(clientHandler)
-            || !clientHandler.getPlayer().hasCard(card)
-            || index < 0
-            || index >= deck.size()
+                || !clientHandler.getPlayer().hasCard(card)
+                || index < 0
+                || index >= deck.size()
         ) {
             clientHandler.sendError(Error.E3);
         }

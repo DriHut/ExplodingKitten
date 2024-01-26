@@ -14,7 +14,7 @@ import java.util.List;
 public class ServerGame {
 
     public static final int PORT = 25500;
-    private static final int PLAYER_COUNT = 2;
+    public static final int PLAYER_COUNT = 2;
     private static final List<ClientHandler> clientList = Collections.synchronizedList(new ArrayList<>());
     private static Game game;
 
@@ -51,7 +51,7 @@ public class ServerGame {
         int playerCount = (int) clientList.stream().filter(clientHandler -> clientHandler.getPlayer() != null).count();
         if (playerCount >= PLAYER_COUNT && game == null) {
             game = new Game(clientList);
-            System.out.println("game is starting");
+            System.out.println("The game is starting...");
             game.startGame();
         }
     }

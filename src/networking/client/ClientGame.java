@@ -20,7 +20,7 @@ public class ClientGame {
 
     public static void main(String[] args) throws InterruptedException {
         if (args.length != 1) throw new RuntimeException("missing argument for player type.");
-        if (args[0].equals("ai")) isHuman = false;
+        if (args[0].equals("-ai")) isHuman = false;
 
         ServerHandler handler = new ServerHandler();
         new Thread(handler).start();
